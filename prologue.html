@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script>document.documentElement.classList.add("js");</script>
 <style>
@@ -27,8 +27,9 @@
   .excerpt-head .eyebrow { margin-bottom: 1.2rem; }
   .excerpt-title { font-size: clamp(2.6rem, 6vw, 4rem); }
   .from-line { margin-top: 1rem; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.06em; color: var(--dim); }
-  .excerpt article p { margin-bottom: 1.4em; font-weight: 300; }
+  .excerpt article p { margin-bottom: 1.5em; font-size: 1.09rem; line-height: 1.78; }
   .excerpt article p:first-of-type::first-letter {
+    font-family: var(--serif);
     font-size: 3.6em; line-height: 0.8; float: left;
     padding-right: 0.12em; padding-top: 0.08em;
     background: var(--prism); -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -42,7 +43,7 @@
     padding: 2.4rem 2rem; background: rgba(236, 232, 224, 0.03);
   }
   .keep-reading h2 { font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; }
-  .keep-reading p { color: var(--dim); font-weight: 300; margin-bottom: 1.5rem; }
+  .keep-reading p { color: var(--dim); margin-bottom: 1.5rem; }
   .excerpt-footer {
     max-width: 720px; margin: 0 auto; padding: 0 1.5rem 4rem;
     font-size: 0.85rem; color: var(--dim); text-align: center;
