@@ -138,7 +138,7 @@
       .then(function (data) {
         if (data.ok) {
           form.reset();
-          status.textContent = "Sent — thanks! Kevin reads every message.";
+          status.textContent = "Sent — thanks!";
           status.className = "form-status ok";
         } else {
           status.textContent = data.error || "Something went wrong. Please try again.";
