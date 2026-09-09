@@ -25,6 +25,51 @@
     reveals.forEach(function (el) { el.classList.add("in"); });
   }
 
+  /* ---------- regional retailer swap ----------
+     US editions are region-locked. The Macmillan Audio audiobook
+     (audible.com, B0GBYLW6CT) 404s on audible.co.uk / .com.au; the UK/IE/AU
+     audio rights belong to the Simon & Schuster Audio UK edition (B0GJRJWHHL).
+     Likewise the FSG hardcover on amazon.com isn't the UK edition — S&S UK
+     publishes it as ISBN 9781398555310 on amazon.co.uk. Point those visitors
+     at their own store; everyone else keeps the US links. */
+  var UK_AUDIBLE = "https://www.audible.co.uk/pd/The-AGI-Chronicles-Audiobook/B0GJRJWHHL";
+  var UK_AMAZON = "https://www.amazon.co.uk/dp/1398555312";
+  var AU_AUDIBLE = "https://www.audible.com.au/pd/The-AGI-Chronicles-Audiobook/B0GJRJWHHL";
+  var REGIONAL = {
+    GB: { audible: UK_AUDIBLE, amazon: UK_AMAZON, kindle: UK_AMAZON },
+    IE: { audible: UK_AUDIBLE, amazon: UK_AMAZON, kindle: UK_AMAZON },
+    AU: { audible: AU_AUDIBLE },
+    NZ: { audible: AU_AUDIBLE }
+  };
+  var LINK_SELECTORS = {
+    audible: 'a[href*="audible.com/pd/"]',
+    amazon: 'a[href*="amazon.com/"][href*="/dp/0374618755"]',
+    kindle: 'a[href*="amazon.com/"][href*="/dp/B0GBZ2MDDJ"]'
+  };
+  function guessRegion() {
+    var langs = navigator.languages || [navigator.language || ""];
+    for (var i = 0; i < langs.length; i++) {
+      var m = /-([A-Za-z]{2})\b/.exec(langs[i] || "");
+      if (m && REGIONAL[m[1].toUpperCase()]) return m[1].toUpperCase();
+    }
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      if (tz === "Europe/London") return "GB";
+      if (tz === "Europe/Dublin") return "IE";
+      if (tz.indexOf("Australia/") === 0) return "AU";
+      if (tz === "Pacific/Auckland") return "NZ";
+    } catch (e) {}
+    return null;
+  }
+  var region = guessRegion();
+  if (region) {
+    Object.keys(REGIONAL[region]).forEach(function (kind) {
+      document.querySelectorAll(LINK_SELECTORS[kind]).forEach(function (a) {
+        a.href = REGIONAL[region][kind];
+      });
+    });
+  }
+
   /* ---------- sticky mobile buy bar ---------- */
   var stickyBuy = document.getElementById("sticky-buy");
   var buySection = document.getElementById("buy");
