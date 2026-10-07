@@ -2,6 +2,32 @@
 (function () {
   "use strict";
 
+  /* ---------- tour: drop past events ----------
+     Each event's <time datetime="YYYY-MM-DD"> marks its date. An event stays
+     listed through the end of that day in Pacific time (UTC-8, so evening
+     West Coast events never vanish early), then is removed. Once every date
+     has passed, the whole section and its nav/footer links go too. Runs
+     before the scroll-reveal setup so removed rows are never observed. */
+  var tour = document.getElementById("tour");
+  if (tour) {
+    var now = Date.now();
+    tour.querySelectorAll(".tour-event").forEach(function (ev) {
+      var t = ev.querySelector("time[datetime]");
+      var m = t && /^(\d{4})-(\d{2})-(\d{2})/.exec(t.getAttribute("datetime"));
+      if (!m) return;
+      var over = Date.UTC(+m[1], +m[2] - 1, +m[3] + 1, 8);
+      if (now >= over) ev.remove();
+    });
+    if (!tour.querySelector(".tour-event")) {
+      tour.remove();
+      document.querySelectorAll('a[href="#tour"]').forEach(function (a) {
+        var next = a.nextSibling;
+        if (next && next.nodeType === 3 && next.nodeValue.indexOf("·") !== -1) next.remove();
+        a.remove();
+      });
+    }
+  }
+
   /* ---------- scroll reveal ---------- */
   var reveals = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
